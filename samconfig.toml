@@ -5,6 +5,11 @@ version = 0.1
 parameter_overrides=[
   "NodeENV=production",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+  "WildcardDomainCertArn=https://api.harvardartmuseums.org",
+  "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
+  "BaseDomainName=rdok.co.uk",
+  "DomainHostedZoneID=ZSY7GT2NEDPN0",
+  "CorsOriginsCommaDelimited=https://studio.apollographql.com",
 ]
 
 [test]
@@ -13,6 +18,10 @@ parameter_overrides=[
 parameter_overrides=[
   "NodeENV=test",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+  "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
+  "BaseDomainName=rdok.co.uk",
+  "DomainHostedZoneID=ZSY7GT2NEDPN0",
+  "CorsOriginsCommaDelimited=https://studio.apollographql.com",
 ]
 
 [dev]
@@ -21,4 +30,8 @@ parameter_overrides=[
 parameter_overrides=[
   "NodeENV=dev",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+  "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
+  "BaseDomainName=rdok.co.uk",
+  "DomainHostedZoneID=ZSY7GT2NEDPN0",
+  "CorsOriginsCommaDelimited=https://studio.apollographql.com",
 ]

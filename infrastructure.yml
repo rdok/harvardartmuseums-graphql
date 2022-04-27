@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Parameters:
+  NodeENV: { Type: String, Default: "development" }
+  Environment: { Type: String, Default: "dev" }
+  AwsChatbotStackName: { Type: String, Default: "rdok-test-aws-chatbot" }
+  HarvardArtMuseumsApi: { Type: String }
+  WildcardDomainCertArn: { Type: String }
+  BaseDomainName: { Type: String }
+  DomainHostedZoneID: { Type: String }
+  CorsOriginsCommaDelimited: { Type: String }
+Conditions:
+  CreateProdResources: !Equals [!Ref Environment, "prod"]
+Resources:
+  API:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: "Prod"
+      MethodSettings:
+        - ResourcePath: "/*"
+          HttpMethod: "*"
+          LoggingLevel: INFO
+          DataTraceEnabled: true
+      Domain:
+        CertificateArn: !Ref WildcardDomainCertArn
+        DomainName: !Sub
+          - "${AWS::StackName}.${baseDomain}"
+          - baseDomain: !Ref BaseDomainName
+        Route53:
+          HostedZoneId: !Ref DomainHostedZoneID
+        EndpointConfiguration: EDGE
+      # API requests predominantly originate from other services within
+      # the same region as the API is deployed.
+      # A regional API endpoint will typically lower the latency of connections
+      # and is recommended for such scenarios.
+      # https://docs.aws.amazon.com/apigateway/latest/developerguide/create-regional-api.html
+      EndpointConfiguration: { Type: "REGIONAL" }
+  GraphQL:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handlers/graphql.handler
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Ref HarvardArtMuseumsApiKey
+      CodeUri: dist
+      Runtime: nodejs14.x
+      MemorySize: 256
+      Tracing: Active
+      Events:
+        Api:
+          Type: Api
+          Properties: { Method: ANY, Path: "/graphql", RestApiId: { Ref: API } }
+      Environment:
+        Variables:
+          NODE_ENV: !Ref NodeENV
+          HARVARD_ART_MUSEUMS_API: !Ref HarvardArtMuseumsApi
+          HARVARD_ART_MUSEUMS_API_KEY_SECRET_ARN: !Ref HarvardArtMuseumsApiKey
+          CORS_ORIGINS_COMMA_DELIMITED: !Ref CorsOriginsCommaDelimited
+  HarvardArtMuseumsApiKey:
+    Type: "AWS::SecretsManager::Secret"
+    Properties:
+      Description: Manually inserted API key.
+      Name: !Sub "${AWS::StackName}-HarvardArtMuseumsApiKey"
+      SecretString: '***'
+  MonitorLambdaErrors:
+    Condition: CreateProdResources
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      Dimensions: [{ Name: FunctionName, Value: !Ref GraphQL }]
+      EvaluationPeriods: 1
+      Period: 60
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      Statistic: Sum
+      Threshold: 1
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - Fn::ImportValue: !Sub "${AwsChatbotStackName}-ErrorsListenerArn"
+      OKActions:
+        - Fn::ImportValue: !Sub "${AwsChatbotStackName}-ErrorsListenerArn"
+  MonitorGraphQLErrors:
+    Condition: CreateProdResources
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 1
+      Period: 300
+      MetricName: !Sub "${GraphQL}/DidEncounterErrors"
+      Namespace: GraphQL/Errors
+      Statistic: Sum
+      Threshold: 1
+      TreatMissingData: notBreaching
+      AlarmActions:
+        - Fn::ImportValue: !Sub "${AwsChatbotStackName}-ErrorsListenerArn"
+      OKActions:
+        - Fn::ImportValue: !Sub "${AwsChatbotStackName}-ErrorsListenerArn"
+  GraphQLErrorsMetricFilter:
+    Condition: CreateProdResources
+    Type: AWS::Logs::MetricFilter
+    DependsOn: [GraphQL]
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${GraphQL}"
+      FilterPattern: "DID_ENCOUNTER_ERRORS"
+      MetricTransformations:
+        - MetricValue: 1
+          MetricNamespace: GraphQL/Errors
+          MetricName: !Sub "${GraphQL}/DidEncounterErrors"
+Outputs:
+  GraphQLEndpoint:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub
+      - "https://${AWS::StackName}.${baseDomain}/graphql"
+      - baseDomain: !Ref BaseDomainName
+    Export:
+      Name: !Sub "${AWS::StackName}-GraphQLEndpoint"
+  GraphQLRoleName:
+    Value: !Sub "${GraphQLRole}"
+    Export:
+      Name: !Sub "${AWS::StackName}-GraphQLRoleName"
