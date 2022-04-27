@@ -1,37 +1,49 @@
 type Query {
-  healthCheck: String
-  prints(input: PrintsInput!): Prints
+    healthCheck: String
+    objects(input: ObjectsInput!): Objects
 }
 
-input PrintsInput {
-  pageNumber: Int = 1
-  pageSize: Int = 10
-  orderBy: PrintsSortBy
-  filterBy: PrintsFilterBy
+input ObjectsInput {
+    pageNumber: Int = 1
+    pageSize: Int = 10
+    orderBy: SortBy
+    filterBy: FilterBy
 }
 
-enum PrintsSortBy {
-  RANK_DESC
-  RANK_ASC
+input SortBy {
+    sortBy: SortByFields
+    sortOrder: SortOrder
 }
 
-input PrintsFilterBy {
-  hasImages: Boolean
-  standardVerification: StandardVerification
+enum SortOrder {
+    DESC
+    ASC
+}
+enum SortByFields {
+    RANK
 }
 
-enum StandardVerification {
-  BEST
+input FilterBy {
+    hasImages: Boolean
+    verificationLevel: VerificationLevel
 }
 
-type Prints {
-  prints: [Print!]!
-  currentPage: Int!
-  itemsPerPage: Int!
-  totalItems: Int!
-  totalPages: Int!
+enum VerificationLevel {
+    UNCHECKED
+    POOR
+    ADEQUATE
+    GOOD
+    BEST
 }
 
-type Print {
-  id: String!
+type Objects {
+    objects: [ObjectResource!]!
+    currentPage: Int!
+    itemsPerPage: Int!
+    totalItems: Int!
+    totalPages: Int!
+}
+
+type ObjectResource {
+    id: String!
 }

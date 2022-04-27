@@ -14,50 +14,63 @@ export type Scalars = {
   Float: number;
 };
 
-export type Print = {
-  __typename?: 'Print';
+export type FilterBy = {
+  hasImages: InputMaybe<Scalars['Boolean']>;
+  verificationLevel: InputMaybe<VerificationLevel>;
+};
+
+export type ObjectResource = {
+  __typename?: 'ObjectResource';
   id: Scalars['String'];
 };
 
-export type Prints = {
-  __typename?: 'Prints';
+export type Objects = {
+  __typename?: 'Objects';
   currentPage: Scalars['Int'];
   itemsPerPage: Scalars['Int'];
-  prints: Array<Print>;
+  objects: Array<ObjectResource>;
   totalItems: Scalars['Int'];
   totalPages: Scalars['Int'];
 };
 
-export type PrintsFilterBy = {
-  hasImages: InputMaybe<Scalars['Boolean']>;
-  standardVerification: InputMaybe<StandardVerification>;
-};
-
-export type PrintsInput = {
-  filterBy: InputMaybe<PrintsFilterBy>;
-  orderBy: InputMaybe<PrintsSortBy>;
+export type ObjectsInput = {
+  filterBy: InputMaybe<FilterBy>;
+  orderBy: InputMaybe<SortBy>;
   pageNumber: InputMaybe<Scalars['Int']>;
   pageSize: InputMaybe<Scalars['Int']>;
 };
 
-export enum PrintsSortBy {
-  RankAsc = 'RANK_ASC',
-  RankDesc = 'RANK_DESC'
-}
-
 export type Query = {
   __typename?: 'Query';
   healthCheck: Maybe<Scalars['String']>;
-  prints: Maybe<Prints>;
+  objects: Maybe<Objects>;
 };
 
 
-export type QueryPrintsArgs = {
-  input: PrintsInput;
+export type QueryObjectsArgs = {
+  input: ObjectsInput;
 };
 
-export enum StandardVerification {
-  Best = 'BEST'
+export type SortBy = {
+  sortBy: InputMaybe<SortByFields>;
+  sortOrder: InputMaybe<SortOrder>;
+};
+
+export enum SortByFields {
+  Rank = 'RANK'
+}
+
+export enum SortOrder {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
+export enum VerificationLevel {
+  Adequate = 'ADEQUATE',
+  Best = 'BEST',
+  Good = 'GOOD',
+  Poor = 'POOR',
+  Unchecked = 'UNCHECKED'
 }
 
 
@@ -126,38 +139,41 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  FilterBy: FilterBy;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Print: ResolverTypeWrapper<Print>;
-  Prints: ResolverTypeWrapper<Prints>;
-  PrintsFilterBy: PrintsFilterBy;
-  PrintsInput: PrintsInput;
-  PrintsSortBy: PrintsSortBy;
+  ObjectResource: ResolverTypeWrapper<ObjectResource>;
+  Objects: ResolverTypeWrapper<Objects>;
+  ObjectsInput: ObjectsInput;
   Query: ResolverTypeWrapper<{}>;
-  StandardVerification: StandardVerification;
+  SortBy: SortBy;
+  SortByFields: SortByFields;
+  SortOrder: SortOrder;
   String: ResolverTypeWrapper<Scalars['String']>;
+  VerificationLevel: VerificationLevel;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  FilterBy: FilterBy;
   Int: Scalars['Int'];
-  Print: Print;
-  Prints: Prints;
-  PrintsFilterBy: PrintsFilterBy;
-  PrintsInput: PrintsInput;
+  ObjectResource: ObjectResource;
+  Objects: Objects;
+  ObjectsInput: ObjectsInput;
   Query: {};
+  SortBy: SortBy;
   String: Scalars['String'];
 };
 
-export type PrintResolvers<ContextType = any, ParentType extends ResolversParentTypes['Print'] = ResolversParentTypes['Print']> = {
+export type ObjectResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ObjectResource'] = ResolversParentTypes['ObjectResource']> = {
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PrintsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Prints'] = ResolversParentTypes['Prints']> = {
+export type ObjectsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Objects'] = ResolversParentTypes['Objects']> = {
   currentPage: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   itemsPerPage: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  prints: Resolver<Array<ResolversTypes['Print']>, ParentType, ContextType>;
+  objects: Resolver<Array<ResolversTypes['ObjectResource']>, ParentType, ContextType>;
   totalItems: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalPages: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -165,12 +181,12 @@ export type PrintsResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   healthCheck: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  prints: Resolver<Maybe<ResolversTypes['Prints']>, ParentType, ContextType, RequireFields<QueryPrintsArgs, 'input'>>;
+  objects: Resolver<Maybe<ResolversTypes['Objects']>, ParentType, ContextType, RequireFields<QueryObjectsArgs, 'input'>>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Print: PrintResolvers<ContextType>;
-  Prints: PrintsResolvers<ContextType>;
+  ObjectResource: ObjectResourceResolvers<ContextType>;
+  Objects: ObjectsResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
 };
 
