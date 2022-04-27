@@ -1,0 +1,107 @@
+name: Deploy
+env:
+  AWS_ACCESS_KEY_ID: "AKIAVEPBBWCCZPVN3UMS"
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: false
+        description: "Allowed values from allowedEnvironments@infrastructure.json"
+jobs:
+  check:
+    uses: rdok/harvardartmuseums-graphql/.github/workflows/check.yml@main
+  deploy:
+    environment:
+      name: ${{ github.event.inputs.environment == '' && 'test' || github.event.inputs.environment }}
+      url: ${{ steps.github_environment_url.outputs.value }}
+    concurrency: ${{ github.event.inputs.environment == '' && 'test' || github.event.inputs.environment }}
+    needs: [check]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare environment variables
+        id: env
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+        run: |
+          if [ "$ENVIRONMENT" = "" ]; then
+            ENVIRONMENT=$(jq -r '.testEnvironment' infrastructurerc.json)
+          fi
+
+          HAS_VALID_ENV=$(jq -r ".allowedEnvironments | index(\"$ENVIRONMENT\") // empty" infrastructurerc.json)
+          if [ -z "${HAS_VALID_ENV}" ]; then
+            printf '%s\n' "ENVIRONMENT is not in accepted range" >&2
+            exit 1
+          fi
+
+          ORG=$(jq -r '.org' infrastructurerc.json)
+          NAME=$(jq -r '.name' infrastructurerc.json)
+          AWS_REGION=$(jq -r '.region' infrastructurerc.json)
+
+          echo "environment=${ENVIRONMENT}" >> $GITHUB_ENV
+          echo ::set-output name=environment::"${ENVIRONMENT}"
+          echo "aws_cicd_stack_name=${ORG}-cicd-${NAME}" >> $GITHUB_ENV
+          echo "aws_stack_name=${ORG}-${ENVIRONMENT}-${NAME}" >> $GITHUB_ENV
+
+          echo "AWS_DEFAULT_REGION=${AWS_REGION}" >> $GITHUB_ENV
+      - name: Assume CI/CD role
+        run: |
+          AWS_ROLE_ARN=$(aws cloudformation describe-stacks \
+              --stack-name ${{ env.aws_cicd_stack_name }} \
+              --query 'Stacks[0].Outputs[?OutputKey==`CICDRoleARN`].OutputValue' \
+              --output text)
+
+          AUTHORISED_USER=$(aws sts assume-role \
+              --output json \
+              --role-arn $AWS_ROLE_ARN \
+              --role-session-name cicd-access \
+              --query "Credentials")
+
+          AWS_ACCESS_KEY_ID=$(echo $AUTHORISED_USER | jq -r '.AccessKeyId')
+          echo "::add-mask::${AWS_ACCESS_KEY_ID}" # Hide secret from logs
+          echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> $GITHUB_ENV
+
+          AWS_SECRET_ACCESS_KEY=$(echo $AUTHORISED_USER | jq -r '.SecretAccessKey')
+          echo "::add-mask::${AWS_SECRET_ACCESS_KEY}" # Hide secret from logs
+          echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> $GITHUB_ENV
+
+          export AWS_SESSION_TOKEN=$(echo $AUTHORISED_USER | jq -r '.SessionToken')
+          echo "::add-mask::${AWS_SESSION_TOKEN}" # Hide secret from logs
+          echo "AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}" >> $GITHUB_ENV
+
+          echo "AWS_ROLE_SESSION_NAME=${{ env.aws_stack_name }}" >> $GITHUB_ENV
+      - uses: actions/setup-node@v3
+        with: { node-version: "14", cache: "npm" }
+      - name: Install NPM packages
+        run: npm ci
+      - name: Compile TypeScript to JavaScript
+        run: npm run build
+      - name: Build AWS SAM
+        run: sam build --template infrastructure.yml
+      - name: Deploy AWS SAM
+        run: |
+          DEPLOY_BUCKET=$(aws cloudformation describe-stacks  \
+              --stack-name ${{ env.aws_cicd_stack_name }} \
+              --query 'Stacks[0].Outputs[?OutputKey==`CICDBucketName`].OutputValue' \
+              --output text)
+
+          sam deploy \
+            --s3-bucket "${DEPLOY_BUCKET}" \
+            --s3-prefix ${{ env.environment }} \
+            --config-env ${{ env.environment }} \
+            --stack-name ${{ env.aws_stack_name }} \
+            --capabilities CAPABILITY_IAM \
+            --no-fail-on-empty-changeset \
+            --no-confirm-changeset
+
+      - name: Set GitHub environment URL
+        id: github_environment_url
+        run: |
+          URL=$(aws cloudformation describe-stacks \
+              --stack-name ${{ env.aws_stack_name }} \
+              --query 'Stacks[0].Outputs[?OutputKey==`GraphQLEndpoint`].OutputValue' \
+              --output text)
+          echo ::set-output name=value::"${URL}"
