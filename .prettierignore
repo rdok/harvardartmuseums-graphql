@@ -1,0 +1,5 @@
+.aws-sam/**
+dist/**
+coverage/**
+cicd-authorisation/cdk.out/**
+**/*.generated.ts

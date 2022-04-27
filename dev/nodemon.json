@@ -1,0 +1,7 @@
+{
+  "watch": ["lib", "handlers", "dev/server.ts"],
+  "ext": "ts",
+  "ignore": ["*.spec.ts"],
+  "exec": "ts-node",
+  "delay": 1
+}
