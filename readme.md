@@ -6,6 +6,14 @@
 
 Apollo GraphQL Server to unify & serve harvardartmuseums in a single GraphQL request.
 
+# Features
+#### Feed with top prints
+```
+curl 'https://rdok-prod-harvardartmuseums-graphql.rdok.co.uk/graphql' -X POST -H 'Content-Type: application/json' --data-raw '{"query":"query Objects($input: ObjectsInput!) {\n  objects(input: $input) {\n    data {\n      id\n      rank\n      imageCount\n      primaryImageUrl\n    }\n    currentPage\n    itemsPerPage\n    totalItems\n    totalPages\n  }\n}","variables":{"input":{"pageNumber":1,"pageSize":10,"orderBy":{"sortBy":"RANK","sortOrder":"DESC"},"filter":{"hasImage":true,"classification":"PRINTS","verificationLevel":"BEST"}}},"operationName":"Objects"}'
+```
+#### Apollo Studio - Test Env
+https://rdok-test-harvardartmuseums-graphql.rdok.co.uk/graphql
+
 # TODO
 
 - Consider benefits/costs of changing `Print` object to more generic `Object` to search for any classification types.
