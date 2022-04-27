@@ -4,8 +4,8 @@ version = 0.1
 [prod.deploy.parameters]
 parameter_overrides=[
   "NodeENV=production",
+  "Environment=prod",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
-  "WildcardDomainCertArn=https://api.harvardartmuseums.org",
   "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
   "BaseDomainName=rdok.co.uk",
   "DomainHostedZoneID=ZSY7GT2NEDPN0",
@@ -17,6 +17,7 @@ parameter_overrides=[
 [test.deploy.parameters]
 parameter_overrides=[
   "NodeENV=test",
+  "Environment=test",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
   "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
   "BaseDomainName=rdok.co.uk",
@@ -29,6 +30,7 @@ parameter_overrides=[
 [dev.deploy.parameters]
 parameter_overrides=[
   "NodeENV=dev",
+  "Environment=dev",
   "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
   "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
   "BaseDomainName=rdok.co.uk",
