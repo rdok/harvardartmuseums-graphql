@@ -2,18 +2,18 @@ import {
   IncomingObject as IncomingObject,
   IncomingObjects,
 } from "../types.generated";
-import { Print, Prints } from "../../../types.generated";
+import { ObjectResource, Objects } from "../../../types.generated";
 
-export class PrintTransformer {
-  transform(print: IncomingObject): Print {
+export class ObjectTransformer {
+  transform(incomingObject: IncomingObject): ObjectResource {
     return {
-      id: print.objectnumber,
+      id: incomingObject.objectnumber,
     };
   }
 
-  transformMany(response: IncomingObjects): Prints {
+  transformMany(response: IncomingObjects): Objects {
     const { info } = response;
-    const prints = response.records.map((object: IncomingObject) => {
+    const objects = response.records.map((object: IncomingObject) => {
       return this.transform(object);
     });
 
@@ -22,7 +22,7 @@ export class PrintTransformer {
       itemsPerPage: info.totalrecordsperquery,
       totalItems: info.totalrecords,
       totalPages: info.pages,
-      prints,
+      objects,
     };
   }
 }
