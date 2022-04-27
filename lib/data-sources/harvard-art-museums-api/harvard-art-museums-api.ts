@@ -1,16 +1,22 @@
 import { RequestOptions, RESTDataSource } from "apollo-datasource-rest";
-import { PrintTransformer } from "./transformers/print-transformer";
 import { IncomingObjects } from "./types.generated";
 import { UserInputError } from "apollo-server-lambda";
-import { Prints, PrintsInput } from "../../types.generated";
+import { Objects, ObjectsInput } from "../../types.generated";
+import { ObjectTransformer } from "./transformers/object-transformer";
+import { ObjectsInputTransformer } from "./transformers/objects-input-transformer";
 
 export class HarvardArtMuseumsApi extends RESTDataSource {
-  private transformer: PrintTransformer;
+  private transformer: ObjectTransformer;
+  private inputTransformer: ObjectsInputTransformer;
 
-  constructor(props: { printTransformer: PrintTransformer }) {
+  constructor(props: {
+    objectTransformer: ObjectTransformer;
+    objectInputTransformer: ObjectsInputTransformer;
+  }) {
     super();
     this.baseURL = process.env.HARVARD_ART_MUSEUMS_API;
-    this.transformer = props.printTransformer;
+    this.transformer = props.objectTransformer;
+    this.inputTransformer = props.objectInputTransformer;
   }
 
   async willSendRequest(request: RequestOptions) {
@@ -26,7 +32,7 @@ export class HarvardArtMuseumsApi extends RESTDataSource {
     request.params.set("apikey", harvardArtMuseumsApiKey);
   }
 
-  async prints(input: PrintsInput): Promise<Prints> {
+  async objects(input: ObjectsInput): Promise<Objects> {
     const pageSize = input.pageSize as number; // Default value set from GraphQL
     const pageNumber = input.pageNumber as number; // Default value set from GraphQL
 
@@ -37,7 +43,12 @@ export class HarvardArtMuseumsApi extends RESTDataSource {
       throw new UserInputError("Page number must be greater than 0.");
     }
 
-    const response: IncomingObjects = await this.get("object");
+    const transformedInput = this.inputTransformer.transform(input);
+
+    const response: IncomingObjects = await this.get(
+      "object",
+      transformedInput
+    );
 
     return this.transformer.transformMany(response);
   }
