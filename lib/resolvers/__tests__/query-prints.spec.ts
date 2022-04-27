@@ -1,26 +1,26 @@
 import { resolvers } from "../index";
 import { makeContext } from "./makers";
 import { createMock } from "ts-auto-mock";
-import { Print, PrintsInput } from "../../types.generated";
+import { ObjectResource, ObjectsInput } from "../../types.generated";
 
-describe("Query: prints", () => {
+describe("Query: Objects", () => {
   it("fetches incoming objects", async () => {
     const { context, harvardArtMuseumsApi, args } = makeQuery();
-    await resolvers.Query.prints(null, args, context);
-    expect(harvardArtMuseumsApi.prints).not.toHaveBeenCalledWith(args);
+    await resolvers.Query.objects(null, args, context);
+    expect(harvardArtMuseumsApi.objects).not.toHaveBeenCalledWith(args);
   });
-  it("returns prints", async () => {
-    const { context, args, prints } = makeQuery();
-    const actual = await resolvers.Query.prints(null, args, context);
-    expect(actual).toEqual(prints);
+  it("returns Objects", async () => {
+    const { context, args, objects } = makeQuery();
+    const actual = await resolvers.Query.objects(null, args, context);
+    expect(actual).toEqual(objects);
   });
 });
 function makeQuery() {
   const contextFactory = makeContext();
-  contextFactory.args = createMock<PrintsInput>();
-  const prints = [createMock<Print>(), createMock<Print>()];
-  contextFactory.harvardArtMuseumsApi.prints = jest
+  contextFactory.args = createMock<ObjectsInput>();
+  const objects = [createMock<ObjectResource>(), createMock<ObjectResource>()];
+  contextFactory.harvardArtMuseumsApi.objects = jest
     .fn()
-    .mockResolvedValueOnce(prints);
-  return { ...contextFactory, prints };
+    .mockResolvedValueOnce(objects);
+  return { ...contextFactory, objects };
 }

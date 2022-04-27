@@ -1,10 +1,10 @@
 import { Context } from "..";
-import { PrintsInput } from "../types.generated";
+import { ObjectsInput } from "../types.generated";
 
 const Query = {
   healthCheck: () => "alive",
-  prints(parent: any, args: { input: PrintsInput }, context: Context) {
-    return context.dataSources.harvardArtMuseumsApi.prints(args.input);
+  objects(parent: any, args: { input: ObjectsInput }, context: Context) {
+    return context.dataSources.harvardArtMuseumsApi.objects(args.input);
   },
 };
 

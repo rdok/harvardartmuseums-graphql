@@ -1,9 +1,24 @@
 import Query from "./query";
 
 const resolvers = {
-  PrintsSortBy: {
-    RANK_DESC: "rank_desc",
-    RANK_ASC: "rank_asc",
+  SortOrder: {
+    DESC: "desc",
+    ASC: "asc",
+  },
+  SortByFields: {
+    RANK: "rank",
+  },
+  Classification: {
+    SCULPTURE: "Sculpture",
+    PORTFOLIOS: "Portfolios",
+    PRINTS: "Prints",
+  },
+  VerificationLevel: {
+    UNCHECKED: 0,
+    POOR: 1,
+    ADEQUATE: 2,
+    GOOD: 3,
+    BEST: 4,
   },
   Query,
 };

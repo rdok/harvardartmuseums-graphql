@@ -1,27 +1,35 @@
 import { createMock } from "ts-auto-mock";
 import { IncomingObject, IncomingObjects } from "../types.generated";
-import { PrintTransformer } from "../transformers/print-transformer";
-import { Prints, PrintsInput } from "../../../types.generated";
+import { Objects, ObjectsInput } from "../../../types.generated";
+import { ObjectTransformer } from "../transformers/object-transformer";
+import { ObjectsInputTransformer } from "../transformers/objects-input-transformer";
 
-it("uses the correct API request body", async () => {
-  const { harvardArtMuseumApi, httpGet, input } =
+it("transforms objects input", async () => {
+  const { harvardArtMuseumApi, input, objectInputTransformer } =
     await makeHarvardArtMuseumApi();
-  await harvardArtMuseumApi.prints(input);
-  expect(httpGet).toHaveBeenCalledWith("object");
+  await harvardArtMuseumApi.objects(input);
+  expect(objectInputTransformer.transform).toHaveBeenCalledWith(input);
 });
 
-it("transforms prints", async () => {
+it("uses the correct API request body", async () => {
+  const { harvardArtMuseumApi, httpGet, input, transformedInput } =
+    await makeHarvardArtMuseumApi();
+  await harvardArtMuseumApi.objects(input);
+  expect(httpGet).toHaveBeenCalledWith("object", transformedInput);
+});
+
+it("transforms objects", async () => {
   const { apiResults, input, objectTransformer, harvardArtMuseumApi } =
     await makeHarvardArtMuseumApi();
 
-  await harvardArtMuseumApi.prints(input);
+  await harvardArtMuseumApi.objects(input);
 
   expect(objectTransformer.transformMany).toHaveBeenCalledWith(apiResults);
 });
 
 async function makeHarvardArtMuseumApi() {
   const { HarvardArtMuseumsApi } = await import("../harvard-art-museums-api");
-  const input = createMock<PrintsInput>({
+  const input = createMock<ObjectsInput>({
     pageNumber: 1,
     pageSize: 2,
   });
@@ -29,9 +37,13 @@ async function makeHarvardArtMuseumApi() {
   const apiResults = createMock<IncomingObjects>({
     records: [createMock<IncomingObject>()],
   });
-  const prints = createMock<Prints>();
-  const transformMany = jest.fn().mockReturnValueOnce(prints);
-  const objectTransformer = createMock<PrintTransformer>({
+  const objects = createMock<Objects>();
+  const transformMany = jest.fn().mockReturnValueOnce(objects);
+  const transformedInput = jest.fn();
+  const objectInputTransformer = createMock<ObjectsInputTransformer>({
+    transform: jest.fn().mockReturnValueOnce(transformedInput),
+  });
+  const objectTransformer = createMock<ObjectTransformer>({
     transformMany,
   });
   const httpGet = jest.fn().mockResolvedValueOnce(apiResults);
@@ -41,14 +53,17 @@ async function makeHarvardArtMuseumApi() {
     },
   }));
   const harvardArtMuseumApi = new HarvardArtMuseumsApi({
-    printTransformer: objectTransformer,
+    objectTransformer,
+    objectInputTransformer,
   });
 
   return {
+    transformedInput,
     harvardArtMuseumApi,
     objectTransformer,
+    objectInputTransformer,
     transformMany,
-    prints,
+    objects,
     httpGet,
     apiResults,
     incomingObject,
@@ -60,21 +75,21 @@ describe("validate user input", () => {
   it("errors having page size less than one", async () => {
     const { harvardArtMuseumApi, input } = await makeHarvardArtMuseumApi();
     await expect(
-      harvardArtMuseumApi.prints({ ...input, pageSize: -1 })
+      harvardArtMuseumApi.objects({ ...input, pageSize: -1 })
     ).rejects.toThrow("Page size must be between 1 and 100.");
   });
 
   it("errors having page size more than 100", async () => {
     const { harvardArtMuseumApi, input } = await makeHarvardArtMuseumApi();
     await expect(
-      harvardArtMuseumApi.prints({ ...input, pageSize: 101 })
+      harvardArtMuseumApi.objects({ ...input, pageSize: 101 })
     ).rejects.toThrow("Page size must be between 1 and 100.");
   });
 
   it("errors having negative page number", async () => {
     const { harvardArtMuseumApi, input } = await makeHarvardArtMuseumApi();
     await expect(
-      harvardArtMuseumApi.prints({ ...input, pageNumber: 0 })
+      harvardArtMuseumApi.objects({ ...input, pageNumber: 0 })
     ).rejects.toThrow("Page number must be greater than 0.");
   });
 });
