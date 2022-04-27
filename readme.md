@@ -32,6 +32,8 @@ https://rdok-test-harvardartmuseums-graphql.rdok.co.uk/graphql
 - Monitors for any server crash, and notifies slack channel.
 - Scheduled packages maintenance through GitHub's dependabot action.
 
+![Slack Monitor Showcase](./slack-monitor.png)
+
 # Develop
 
 - Run `make` for local development and to view the GraphQL schema in Apollo Studio
