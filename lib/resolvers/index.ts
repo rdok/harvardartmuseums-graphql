@@ -8,6 +8,11 @@ const resolvers = {
   SortByFields: {
     RANK: "rank",
   },
+  Classification: {
+    SCULPTURE: "Sculpture",
+    PORTFOLIOS: "Portfolios",
+    PRINTS: "Prints",
+  },
   VerificationLevel: {
     UNCHECKED: 0,
     POOR: 1,

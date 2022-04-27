@@ -9,7 +9,9 @@ it("transform objects input", () => {
     size: input.pageSize,
     sortorder: input.orderBy?.sortOrder,
     sort: input.orderBy?.sortBy,
-    hasimage: input.hasImage ? 1 : 0,
+    hasimage: input.filter?.hasImage ? 1 : 0,
+    classification: input.filter?.classification,
+    verificationlevel: input.filter?.verificationLevel,
   });
 });
 

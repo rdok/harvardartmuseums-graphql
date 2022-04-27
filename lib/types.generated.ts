@@ -14,8 +14,15 @@ export type Scalars = {
   Float: number;
 };
 
-export type FilterBy = {
-  hasImages: InputMaybe<Scalars['Boolean']>;
+export enum Classification {
+  Portfolios = 'PORTFOLIOS',
+  Prints = 'PRINTS',
+  Sculpture = 'SCULPTURE'
+}
+
+export type Filter = {
+  classification: InputMaybe<Classification>;
+  hasImage: InputMaybe<Scalars['Boolean']>;
   verificationLevel: InputMaybe<VerificationLevel>;
 };
 
@@ -37,8 +44,7 @@ export type Objects = {
 };
 
 export type ObjectsInput = {
-  filterBy: InputMaybe<FilterBy>;
-  hasImage: InputMaybe<Scalars['Boolean']>;
+  filter: InputMaybe<Filter>;
   orderBy: InputMaybe<SortBy>;
   pageNumber: InputMaybe<Scalars['Int']>;
   pageSize: InputMaybe<Scalars['Int']>;
@@ -143,7 +149,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  FilterBy: FilterBy;
+  Classification: Classification;
+  Filter: Filter;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   ObjectResource: ResolverTypeWrapper<ObjectResource>;
   Objects: ResolverTypeWrapper<Objects>;
@@ -159,7 +166,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
-  FilterBy: FilterBy;
+  Filter: Filter;
   Int: Scalars['Int'];
   ObjectResource: ObjectResource;
   Objects: Objects;

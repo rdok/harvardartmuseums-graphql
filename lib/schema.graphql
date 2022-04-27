@@ -7,8 +7,13 @@ input ObjectsInput {
     pageNumber: Int = 1
     pageSize: Int = 10
     orderBy: SortBy
-    filterBy: FilterBy
-    hasImage: Boolean
+    filter: Filter
+}
+
+enum Classification {
+    SCULPTURE
+    PORTFOLIOS
+    PRINTS
 }
 
 input SortBy {
@@ -24,8 +29,9 @@ enum SortByFields {
     RANK
 }
 
-input FilterBy {
-    hasImages: Boolean
+input Filter {
+    hasImage: Boolean
+    classification: Classification
     verificationLevel: VerificationLevel
 }
 

@@ -12,8 +12,18 @@ export class ObjectsInputTransformer {
       transformedInput["sort"] = input.orderBy.sortBy;
     }
 
-    if (input.hasImage !== null) {
-      transformedInput["hasimage"] = input.hasImage ? 1 : 0;
+    if (input.filter !== null) {
+      const { hasImage, verificationLevel, classification } = input.filter;
+
+      if (verificationLevel !== null) {
+        transformedInput["verificationlevel"] = verificationLevel;
+      }
+
+      if (hasImage !== null) transformedInput["hasimage"] = hasImage ? 1 : 0;
+
+      if (classification !== null) {
+        transformedInput["classification"] = classification;
+      }
     }
 
     return transformedInput;
