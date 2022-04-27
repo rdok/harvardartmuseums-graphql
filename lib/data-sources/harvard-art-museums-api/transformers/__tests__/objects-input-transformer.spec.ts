@@ -7,6 +7,8 @@ it("transform objects input", () => {
   const actual = inputTransformer.transform(input);
   expect(actual).toStrictEqual({
     size: input.pageSize,
+    sortorder: input.orderBy?.sortOrder,
+    sort: input.orderBy?.sortBy,
   });
 });
 

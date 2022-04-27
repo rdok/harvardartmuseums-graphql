@@ -12,6 +12,7 @@ export type IncomingObjects = {
 
 export type IncomingObject = {
     objectnumber: string;
+    rank: number;
 };
 
 export type Info = {

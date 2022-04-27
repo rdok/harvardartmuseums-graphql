@@ -5,8 +5,13 @@ export class ObjectsInputTransformer {
   transform(input: ObjectsInput): URLSearchParamsInit {
     const transformedInput: any = {};
 
-    if (typeof input.pageSize !== "undefined") {
+    if (input.pageSize !== null) {
       transformedInput["size"] = input.pageSize;
+    }
+
+    if (input.orderBy !== null) {
+      transformedInput["sortorder"] = input.orderBy.sortOrder;
+      transformedInput["sort"] = input.orderBy.sortBy;
     }
 
     return transformedInput;

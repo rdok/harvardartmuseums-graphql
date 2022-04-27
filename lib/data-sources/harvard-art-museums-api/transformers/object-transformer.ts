@@ -8,12 +8,13 @@ export class ObjectTransformer {
   transform(incomingObject: IncomingObject): ObjectResource {
     return {
       id: incomingObject.objectnumber,
+      rank: incomingObject.rank,
     };
   }
 
   transformMany(response: IncomingObjects): Objects {
     const { info } = response;
-    const objects = response.records.map((object: IncomingObject) => {
+    const data = response.records.map((object: IncomingObject) => {
       return this.transform(object);
     });
 
@@ -22,7 +23,7 @@ export class ObjectTransformer {
       itemsPerPage: info.totalrecordsperquery,
       totalItems: info.totalrecords,
       totalPages: info.pages,
-      objects,
+      data,
     };
   }
 }

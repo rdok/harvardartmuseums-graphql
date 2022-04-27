@@ -22,13 +22,14 @@ export type FilterBy = {
 export type ObjectResource = {
   __typename?: 'ObjectResource';
   id: Scalars['String'];
+  rank: Scalars['Int'];
 };
 
 export type Objects = {
   __typename?: 'Objects';
   currentPage: Scalars['Int'];
+  data: Array<ObjectResource>;
   itemsPerPage: Scalars['Int'];
-  objects: Array<ObjectResource>;
   totalItems: Scalars['Int'];
   totalPages: Scalars['Int'];
 };
@@ -52,8 +53,8 @@ export type QueryObjectsArgs = {
 };
 
 export type SortBy = {
-  sortBy: InputMaybe<SortByFields>;
-  sortOrder: InputMaybe<SortOrder>;
+  sortBy: SortByFields;
+  sortOrder: SortOrder;
 };
 
 export enum SortByFields {
@@ -167,13 +168,14 @@ export type ResolversParentTypes = {
 
 export type ObjectResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ObjectResource'] = ResolversParentTypes['ObjectResource']> = {
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  rank: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type ObjectsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Objects'] = ResolversParentTypes['Objects']> = {
   currentPage: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  data: Resolver<Array<ResolversTypes['ObjectResource']>, ParentType, ContextType>;
   itemsPerPage: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  objects: Resolver<Array<ResolversTypes['ObjectResource']>, ParentType, ContextType>;
   totalItems: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   totalPages: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

@@ -11,8 +11,8 @@ input ObjectsInput {
 }
 
 input SortBy {
-    sortBy: SortByFields
-    sortOrder: SortOrder
+    sortBy: SortByFields!
+    sortOrder: SortOrder!
 }
 
 enum SortOrder {
@@ -37,7 +37,7 @@ enum VerificationLevel {
 }
 
 type Objects {
-    objects: [ObjectResource!]!
+    data: [ObjectResource!]!
     currentPage: Int!
     itemsPerPage: Int!
     totalItems: Int!
@@ -46,4 +46,5 @@ type Objects {
 
 type ObjectResource {
     id: String!
+    rank: Int!
 }
