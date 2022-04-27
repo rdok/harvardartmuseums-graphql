@@ -19,16 +19,17 @@ export class HarvardArtMuseumsApi extends RESTDataSource {
     this.inputTransformer = props.inputTransformer;
   }
 
-  willSendRequest(request: RequestOptions) {
-    const { HARVARD_ART_MUSEUMS_API_KEY } = process.env;
+  async willSendRequest(request: RequestOptions) {
+    const harvardArtMuseumsApiKey =
+      await this.context.secrets.harvardArtMuseumsApiKey();
 
-    if (!HARVARD_ART_MUSEUMS_API_KEY) {
+    if (!harvardArtMuseumsApiKey) {
       const message =
         "process.env.HARVARD_ART_MUSEUMS_API_KEY is missing. See https://docs.google.com/forms/d/1Fe1H4nOhFkrLpaeBpLAnSrIMYvcAxnYWm0IU9a6IkFA/viewform";
       throw new Error(message);
     }
 
-    request.params.set("apikey", HARVARD_ART_MUSEUMS_API_KEY);
+    request.params.set("apikey", harvardArtMuseumsApiKey);
   }
 
   async prints(input: PrintsInput): Promise<Prints> {

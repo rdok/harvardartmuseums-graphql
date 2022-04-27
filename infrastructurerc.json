@@ -1,0 +1,9 @@
+{
+  "name": "harvardartmuseums-graphql",
+  "region": "eu-west-1",
+  "org": "rdok",
+  "baseDomainHostedZoneId": "ZSY7GT2NEDPN0",
+  "testEnvironment": "test",
+  "productionEnvironment": "prod",
+  "allowedEnvironments": ["prod", "test", "dev"]
+}

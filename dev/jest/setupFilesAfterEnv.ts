@@ -4,8 +4,8 @@ global.console = {
 };
 
 beforeEach(() => {
-  process.env.HARVARD_ART_MUSEUMS_API_KEY =
-    "mocked_HARVARD_ART_MUSEUMS_API_KEY";
+  process.env.HARVARD_ART_MUSEUMS_API_KEY_SECRET_ARN =
+    "mocked_HARVARD_ART_MUSEUMS_API_KEY_SECRET_ARN";
 });
 
 afterEach(() => {

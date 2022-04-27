@@ -3,6 +3,7 @@ import { IncomingObject, IncomingObjects } from "../types.generated";
 import { PrintTransformer } from "../transformers/print-transformer";
 import { PrintsInputTransformer } from "../transformers/prints-input-transformer";
 import { Prints, PrintsInput } from "../../../types.generated";
+import { create } from "domain";
 
 it("transforms prints input", async () => {
   const { harvardArtMuseumApi, inputTransformer, input } =
@@ -25,7 +26,7 @@ it("transforms prints", async () => {
   await harvardArtMuseumApi.prints(input);
 
   expect(objectTransformer.transformMany).toHaveBeenCalledWith(
-    apiResults.data[0],
+    apiResults,
     input
   );
 });
@@ -37,11 +38,9 @@ async function makeHarvardArtMuseumApi() {
     pageSize: 2,
   });
   const incomingObject = createMock<IncomingObject>();
-  const apiResults = {
-    data: [
-      createMock<IncomingObjects>({ records: [createMock<IncomingObject>()] }),
-    ],
-  };
+  const apiResults = createMock<IncomingObjects>({
+    records: [createMock<IncomingObject>()],
+  });
   const prints = createMock<Prints>();
   const transformMany = jest.fn().mockReturnValueOnce(prints);
   const transformedInput = jest.fn();

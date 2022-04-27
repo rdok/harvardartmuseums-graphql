@@ -1,0 +1,24 @@
+version = 0.1
+[prod]
+[prod.deploy]
+[prod.deploy.parameters]
+parameter_overrides=[
+  "NodeENV=production",
+  "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+]
+
+[test]
+[test.deploy]
+[test.deploy.parameters]
+parameter_overrides=[
+  "NodeENV=test",
+  "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+]
+
+[dev]
+[dev.deploy]
+[dev.deploy.parameters]
+parameter_overrides=[
+  "NodeENV=dev",
+  "HarvardArtMuseumsApi=https://api.harvardartmuseums.org",
+]
