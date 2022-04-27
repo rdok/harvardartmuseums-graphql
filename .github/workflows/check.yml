@@ -42,8 +42,6 @@ jobs:
         with: { node-version: "14", cache: "npm" }
       - name: Install NPM packages
         run: npm ci
-      - name: Pre-build
-        run: cp .env.json.example .env.json
       - name: Compile TypeScript to JavaScript
         run: npm run build
 

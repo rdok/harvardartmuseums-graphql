@@ -2,4 +2,3 @@ node_modules/
 .aws-sam/
 dist/
 coverage/
-.env.json
