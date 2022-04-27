@@ -8,6 +8,7 @@ input ObjectsInput {
     pageSize: Int = 10
     orderBy: SortBy
     filterBy: FilterBy
+    hasImage: Boolean
 }
 
 input SortBy {
@@ -47,4 +48,6 @@ type Objects {
 type ObjectResource {
     id: String!
     rank: Int!
+    imageCount: Int!
+    primaryImageUrl: String
 }

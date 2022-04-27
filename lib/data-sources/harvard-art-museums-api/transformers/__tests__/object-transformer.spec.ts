@@ -9,6 +9,8 @@ it("transforms object", () => {
   expect(actual).toMatchObject({
     id: incomingObject.objectnumber,
     rank: incomingObject.rank,
+    imageCount: incomingObject.imagecount,
+    primaryImageUrl: incomingObject.primaryimageurl,
   });
 });
 

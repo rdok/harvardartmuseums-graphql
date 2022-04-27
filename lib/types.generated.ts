@@ -22,6 +22,8 @@ export type FilterBy = {
 export type ObjectResource = {
   __typename?: 'ObjectResource';
   id: Scalars['String'];
+  imageCount: Scalars['Int'];
+  primaryImageUrl: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
 };
 
@@ -36,6 +38,7 @@ export type Objects = {
 
 export type ObjectsInput = {
   filterBy: InputMaybe<FilterBy>;
+  hasImage: InputMaybe<Scalars['Boolean']>;
   orderBy: InputMaybe<SortBy>;
   pageNumber: InputMaybe<Scalars['Int']>;
   pageSize: InputMaybe<Scalars['Int']>;
@@ -168,6 +171,8 @@ export type ResolversParentTypes = {
 
 export type ObjectResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ObjectResource'] = ResolversParentTypes['ObjectResource']> = {
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  imageCount: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  primaryImageUrl: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rank: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

@@ -13,6 +13,8 @@ export type IncomingObjects = {
 export type IncomingObject = {
     objectnumber: string;
     rank: number;
+    imagecount: number;
+    primaryimageurl: string;
 };
 
 export type Info = {

@@ -9,6 +9,8 @@ export class ObjectTransformer {
     return {
       id: incomingObject.objectnumber,
       rank: incomingObject.rank,
+      imageCount: incomingObject.imagecount,
+      primaryImageUrl: incomingObject.primaryimageurl,
     };
   }
 
