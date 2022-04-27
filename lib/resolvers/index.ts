@@ -1,9 +1,12 @@
 import Query from "./query";
 
 const resolvers = {
-  SortBy: {
+  SortOrder: {
     DESC: "desc",
     ASC: "asc",
+  },
+  SortByFields: {
+    RANK: "rank",
   },
   VerificationLevel: {
     UNCHECKED: 0,
