@@ -2,7 +2,7 @@ import {
   IncomingObject as IncomingObject,
   IncomingObjects,
 } from "../types.generated";
-import { Print, Prints, PrintsInput } from "../../../types.generated";
+import { Print, Prints } from "../../../types.generated";
 
 export class PrintTransformer {
   transform(print: IncomingObject): Print {
@@ -11,7 +11,7 @@ export class PrintTransformer {
     };
   }
 
-  transformMany(response: IncomingObjects, input: PrintsInput): Prints {
+  transformMany(response: IncomingObjects): Prints {
     const { info } = response;
     const prints = response.records.map((object: IncomingObject) => {
       return this.transform(object);

@@ -1,22 +1,16 @@
 import { RequestOptions, RESTDataSource } from "apollo-datasource-rest";
 import { PrintTransformer } from "./transformers/print-transformer";
 import { IncomingObjects } from "./types.generated";
-import { PrintsInputTransformer } from "./transformers/prints-input-transformer";
 import { UserInputError } from "apollo-server-lambda";
 import { Prints, PrintsInput } from "../../types.generated";
 
 export class HarvardArtMuseumsApi extends RESTDataSource {
   private transformer: PrintTransformer;
-  private inputTransformer: PrintsInputTransformer;
 
-  constructor(props: {
-    printTransformer: PrintTransformer;
-    inputTransformer: PrintsInputTransformer;
-  }) {
+  constructor(props: { printTransformer: PrintTransformer }) {
     super();
     this.baseURL = process.env.HARVARD_ART_MUSEUMS_API;
     this.transformer = props.printTransformer;
-    this.inputTransformer = props.inputTransformer;
   }
 
   async willSendRequest(request: RequestOptions) {
@@ -43,10 +37,8 @@ export class HarvardArtMuseumsApi extends RESTDataSource {
       throw new UserInputError("Page number must be greater than 0.");
     }
 
-    const params = this.inputTransformer.transform(input);
+    const response: IncomingObjects = await this.get("object");
 
-    const response: IncomingObjects = await this.get("object", params);
-
-    return this.transformer.transformMany(response, input);
+    return this.transformer.transformMany(response);
   }
 }

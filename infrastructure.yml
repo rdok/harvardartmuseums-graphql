@@ -61,7 +61,7 @@ Resources:
     Properties:
       Description: Manually inserted API key.
       Name: !Sub "${AWS::StackName}-HarvardArtMuseumsApiKey"
-      SecretString: '***'
+      SecretString: "***"
   MonitorLambdaErrors:
     Condition: CreateProdResources
     Type: AWS::CloudWatch::Alarm

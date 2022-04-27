@@ -1,22 +1,13 @@
 import { createMock } from "ts-auto-mock";
 import { IncomingObject, IncomingObjects } from "../types.generated";
 import { PrintTransformer } from "../transformers/print-transformer";
-import { PrintsInputTransformer } from "../transformers/prints-input-transformer";
 import { Prints, PrintsInput } from "../../../types.generated";
-import { create } from "domain";
-
-it("transforms prints input", async () => {
-  const { harvardArtMuseumApi, inputTransformer, input } =
-    await makeHarvardArtMuseumApi();
-  await harvardArtMuseumApi.prints(input);
-  expect(inputTransformer.transform).toHaveBeenCalledWith(input);
-});
 
 it("uses the correct API request body", async () => {
-  const { harvardArtMuseumApi, httpGet, input, transformedInput } =
+  const { harvardArtMuseumApi, httpGet, input } =
     await makeHarvardArtMuseumApi();
   await harvardArtMuseumApi.prints(input);
-  expect(httpGet).toHaveBeenCalledWith("object", transformedInput);
+  expect(httpGet).toHaveBeenCalledWith("object");
 });
 
 it("transforms prints", async () => {
@@ -25,10 +16,7 @@ it("transforms prints", async () => {
 
   await harvardArtMuseumApi.prints(input);
 
-  expect(objectTransformer.transformMany).toHaveBeenCalledWith(
-    apiResults,
-    input
-  );
+  expect(objectTransformer.transformMany).toHaveBeenCalledWith(apiResults);
 });
 
 async function makeHarvardArtMuseumApi() {
@@ -43,10 +31,6 @@ async function makeHarvardArtMuseumApi() {
   });
   const prints = createMock<Prints>();
   const transformMany = jest.fn().mockReturnValueOnce(prints);
-  const transformedInput = jest.fn();
-  const inputTransformer = createMock<PrintsInputTransformer>({
-    transform: jest.fn().mockReturnValueOnce(transformedInput),
-  });
   const objectTransformer = createMock<PrintTransformer>({
     transformMany,
   });
@@ -58,20 +42,17 @@ async function makeHarvardArtMuseumApi() {
   }));
   const harvardArtMuseumApi = new HarvardArtMuseumsApi({
     printTransformer: objectTransformer,
-    inputTransformer,
   });
 
   return {
     harvardArtMuseumApi,
     objectTransformer,
-    transformedInput,
     transformMany,
     prints,
     httpGet,
     apiResults,
     incomingObject,
-    input: input,
-    inputTransformer,
+    input,
   };
 }
 

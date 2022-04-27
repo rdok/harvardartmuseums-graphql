@@ -1,25 +1,25 @@
 # harvardartmuseums-graphql
 
 > Product ready GraphQL to unify & server harvardartmuseums APIs. Generated from https://github.com/rdok/aws-sam-ts-graphql template.
-> 
-[![Deploy][badge_svg_deploy]][workflow_link_deploy]
-[![Check][badge_svg_check]][workflow_link_check]
+>
+> [![Deploy][badge_svg_deploy]][workflow_link_deploy] > [![Check][badge_svg_check]][workflow_link_check]
 
 Apollo GraphQL Server to unify & serve harvardartmuseums in a single GraphQL request.
 
 # TODO
+
 - Consider benefits/costs of changing `Print` object to more generic `Object` to search for any classification types.
 - Keep an eye on slack alerts; harvardmuseums might have fields that is missing data/undefined; if and when these errors occur, rapidly update the GraphQL server to graciously handle these; with TS strongly typed, as it stands it will error.
 - Check if harvardartmuseums/api-docs exports somewhere TS types so we won't have to manually maintain them. Like so `lib/data-sources/harvard-art-museums-api/types.generated.ts`
 - Upgrade alpha ts-jest to stable 28 - https://github.com/kulshekhar/ts-jest/tree/
 - cicd-authorisation: Auto-detect base domain hosted zone id, instead of using hardcoded one.
 
-
 # Features
+
 - Monitors for any GraphQL errors, and notifies slack channel.
 - Monitors for any server crash, and notifies slack channel.
 - Scheduled packages maintenance through GitHub's dependabot action.
-  
+
 # Develop
 
 - Run `make` for local development and to view the GraphQL schema in Apollo Studio

@@ -1,37 +1,37 @@
 type Query {
-    healthCheck: String
-    prints(input: PrintsInput!): Prints
+  healthCheck: String
+  prints(input: PrintsInput!): Prints
 }
 
 input PrintsInput {
-    pageNumber: Int = 1
-    pageSize: Int = 10
-    orderBy: PrintsSortBy
-    filterBy: PrintsFilterBy
+  pageNumber: Int = 1
+  pageSize: Int = 10
+  orderBy: PrintsSortBy
+  filterBy: PrintsFilterBy
 }
 
 enum PrintsSortBy {
-    RANK_DESC
-    RANK_ASC
+  RANK_DESC
+  RANK_ASC
 }
 
 input PrintsFilterBy {
-    hasImages: Boolean
-    standardVerification: StandardVerification
+  hasImages: Boolean
+  standardVerification: StandardVerification
 }
 
 enum StandardVerification {
-   BEST
+  BEST
 }
 
 type Prints {
-    prints: [Print!]!
-    currentPage: Int!
-    itemsPerPage: Int!
-    totalItems: Int!
-    totalPages: Int!
+  prints: [Print!]!
+  currentPage: Int!
+  itemsPerPage: Int!
+  totalItems: Int!
+  totalPages: Int!
 }
 
 type Print {
-    id: String!
+  id: String!
 }
