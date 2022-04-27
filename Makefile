@@ -2,7 +2,7 @@ export AWS_DEFAULT_REGION=$(shell jq -r '.region' infrastructurerc.json)
 export NAME=$(shell jq -r '.name' infrastructurerc.json)
 export ORG=$(shell jq -r '.org' infrastructurerc.json)
 export AWS_CICD_STACK_NAME=$(shell echo "${ORG}-cicd-${NAME}")
-export AWS_PROFILE=cicd_public_graphql
+export AWS_PROFILE=cicd_harvardartmuseums_graphql
 
 start: node_modules .env.json
 	export AWS_PROFILE=default && \

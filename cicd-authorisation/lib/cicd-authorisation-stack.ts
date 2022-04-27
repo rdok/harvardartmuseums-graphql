@@ -14,7 +14,6 @@ import { DescribeCloudformationStacks } from "./describe-cloudformation-stacks";
 import { ApiGatewayPolicy } from "./api-gateway-policy";
 import { DomainPolicy } from "./domain-policy";
 import { MonitorPolicy } from "./monitor-policy";
-import { SecretsManagerPolicy } from "./secrets-manager-policy";
 
 export class CICDAuthorisationStack extends Stack {
   constructor(
@@ -57,6 +56,5 @@ export class CICDAuthorisationStack extends Stack {
     new ApiGatewayPolicy(this, { config, stackRegex, role });
     new DomainPolicy(this, { config, stackRegex, role });
     new MonitorPolicy(this, { config, stackRegex, role });
-    new SecretsManagerPolicy(this, { config, stackRegex, role });
   }
 }
