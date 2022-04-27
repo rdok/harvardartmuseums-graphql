@@ -1,59 +1,59 @@
 type Query {
-    healthCheck: String
-    objects(input: ObjectsInput!): Objects
+  healthCheck: String
+  objects(input: ObjectsInput!): Objects
 }
 
 input ObjectsInput {
-    pageNumber: Int = 1
-    pageSize: Int = 10
-    orderBy: SortBy
-    filter: Filter
+  pageNumber: Int = 1
+  pageSize: Int = 10
+  orderBy: SortBy
+  filter: Filter
 }
 
 enum Classification {
-    SCULPTURE
-    PORTFOLIOS
-    PRINTS
+  SCULPTURE
+  PORTFOLIOS
+  PRINTS
 }
 
 input SortBy {
-    sortBy: SortByFields!
-    sortOrder: SortOrder!
+  sortBy: SortByFields!
+  sortOrder: SortOrder!
 }
 
 enum SortOrder {
-    DESC
-    ASC
+  DESC
+  ASC
 }
 enum SortByFields {
-    RANK
+  RANK
 }
 
 input Filter {
-    hasImage: Boolean
-    classification: Classification
-    verificationLevel: VerificationLevel
+  hasImage: Boolean
+  classification: Classification
+  verificationLevel: VerificationLevel
 }
 
 enum VerificationLevel {
-    UNCHECKED
-    POOR
-    ADEQUATE
-    GOOD
-    BEST
+  UNCHECKED
+  POOR
+  ADEQUATE
+  GOOD
+  BEST
 }
 
 type Objects {
-    data: [ObjectResource!]!
-    currentPage: Int!
-    itemsPerPage: Int!
-    totalItems: Int!
-    totalPages: Int!
+  data: [ObjectResource!]!
+  currentPage: Int!
+  itemsPerPage: Int!
+  totalItems: Int!
+  totalPages: Int!
 }
 
 type ObjectResource {
-    id: String!
-    rank: Int!
-    imageCount: Int!
-    primaryImageUrl: String
+  id: String!
+  rank: Int!
+  imageCount: Int!
+  primaryImageUrl: String
 }
