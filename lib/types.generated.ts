@@ -28,10 +28,20 @@ export type Filter = {
 
 export type ObjectResource = {
   __typename?: 'ObjectResource';
+  creditLine: Maybe<Scalars['String']>;
+  dateBegin: Maybe<Scalars['String']>;
+  dimensions: Scalars['String'];
+  division: Scalars['String'];
   id: Scalars['String'];
   imageCount: Scalars['Int'];
   primaryImageUrl: Maybe<Scalars['String']>;
+  provenance: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
+  technique: Scalars['String'];
+  title: Scalars['String'];
+  totalUniquePageViews: Scalars['Int'];
+  url: Scalars['String'];
+  verificationLevelDescription: Maybe<Scalars['String']>;
 };
 
 export type Objects = {
@@ -177,10 +187,20 @@ export type ResolversParentTypes = {
 };
 
 export type ObjectResourceResolvers<ContextType = any, ParentType extends ResolversParentTypes['ObjectResource'] = ResolversParentTypes['ObjectResource']> = {
+  creditLine: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dateBegin: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  dimensions: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  division: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageCount: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   primaryImageUrl: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  provenance: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rank: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  technique: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  totalUniquePageViews: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  url: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  verificationLevelDescription: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

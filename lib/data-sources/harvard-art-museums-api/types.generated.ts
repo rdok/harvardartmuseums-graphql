@@ -15,6 +15,16 @@ export type IncomingObject = {
     rank: number;
     imagecount: number;
     primaryimageurl: string;
+    provenance: string;
+    creditline: string;
+    url: string;
+    title: string;
+    technique: string;
+    division: string;
+    dimensions: string;
+    datebegin: string;
+    totaluniquepageviews: number;
+    verificationleveldescription: string;
 };
 
 export type Info = {

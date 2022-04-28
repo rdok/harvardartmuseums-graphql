@@ -11,6 +11,16 @@ it("transforms object", () => {
     rank: incomingObject.rank,
     imageCount: incomingObject.imagecount,
     primaryImageUrl: incomingObject.primaryimageurl,
+    provenance: incomingObject.provenance,
+    creditLine: incomingObject.creditline,
+    verificationLevelDescription: incomingObject.verificationleveldescription,
+    url: incomingObject.url,
+    title: incomingObject.title,
+    technique: incomingObject.technique,
+    division: incomingObject.division,
+    dimensions: incomingObject.dimensions,
+    dateBegin: incomingObject.datebegin,
+    totalUniquePageViews: incomingObject.totaluniquepageviews,
   });
 });
 

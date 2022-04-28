@@ -6,6 +6,7 @@ export class ObjectsInputTransformer {
     const transformedInput: any = {};
 
     if (input.pageSize !== null) transformedInput["size"] = input.pageSize;
+    if (input.pageNumber !== null) transformedInput["page"] = input.pageNumber;
 
     if (input.orderBy !== null) {
       transformedInput["sortorder"] = input.orderBy.sortOrder;
