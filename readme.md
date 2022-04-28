@@ -1,10 +1,8 @@
 # harvardartmuseums-graphql
 
-> Product ready GraphQL to unify & server harvardartmuseums APIs. Generated from https://github.com/rdok/aws-sam-ts-graphql template.
->
-> [![Deploy][badge_svg_deploy]][workflow_link_deploy] > [![Check][badge_svg_check]][workflow_link_check]
+> Production ready GraphQL to unify & server harvardartmuseums APIs. Generated from https://github.com/rdok/aws-sam-ts-graphql template.
 
-Apollo GraphQL Server to unify & serve harvardartmuseums in a single GraphQL request.
+[![Deploy][badge_svg_deploy]][workflow_link_deploy] [![Check][badge_svg_check]][workflow_link_check]
 
 # Features
 
