@@ -9,7 +9,7 @@ parameter_overrides=[
   "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
   "BaseDomainName=rdok.co.uk",
   "DomainHostedZoneID=ZSY7GT2NEDPN0",
-  "CorsOriginsCommaDelimited=https://studio.apollographql.com",
+  "CorsOriginsCommaDelimited=https://studio.apollographql.com,https://rdok-prod-harvardartmuseums-prints.rdok.co.uk",
 ]
 
 [test]
@@ -22,7 +22,7 @@ parameter_overrides=[
   "WildcardDomainCertArn=arn:aws:acm:us-east-1:353196159109:certificate/b7e23fbf-69a3-440f-8560-59f240f2cc09",
   "BaseDomainName=rdok.co.uk",
   "DomainHostedZoneID=ZSY7GT2NEDPN0",
-  "CorsOriginsCommaDelimited=https://studio.apollographql.com",
+  "CorsOriginsCommaDelimited=https://studio.apollographql.com,https://rdok-test-harvardartmuseums-prints.rdok.co.uk",
 ]
 
 [dev]
