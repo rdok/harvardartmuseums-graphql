@@ -9,7 +9,7 @@
 #### Feed with top prints
 
 ```
-curl 'https://rdok-prod-harvardartmuseums-graphql.rdok.co.uk/graphql' -X POST -H 'Content-Type: application/json' --data-raw '{"query":"query Objects($input: ObjectsInput!) {\n  objects(input: $input) {\n    data {\n      id\n      rank\n      imageCount\n      primaryImageUrl\n    }\n    currentPage\n    itemsPerPage\n    totalItems\n    totalPages\n  }\n}","variables":{"input":{"pageNumber":1,"pageSize":10,"orderBy":{"sortBy":"RANK","sortOrder":"DESC"},"filter":{"hasImage":true,"classification":"PRINTS","verificationLevel":"BEST"}}},"operationName":"Objects"}'
+curl 'https://rdok-prod-harvardartmuseums-graphql.rdok.co.uk/graphql'  -H 'content-type: application/json'  --data-raw '{"operationName":"Objects","variables":{"input":{"pageNumber":1,"pageSize":10,"orderBy":{"sortBy":"RANK","sortOrder":"DESC"},"filter":{"hasImage":true,"classification":"PRINTS","verificationLevel":"BEST"}}},"query":"query Objects($input: ObjectsInput!) {\n  objects(input: $input) {\n    data {\n      id\n      rank\n      primaryImageUrl\n      title\n      url\n      dateBegin\n      division\n      technique\n      rank\n      verificationLevelDescription\n      __typename\n    }\n    currentPage\n    itemsPerPage\n    totalItems\n    totalPages\n    __typename\n  }\n}\n"}'
 ```
 
 #### Apollo Studio - Test Env
