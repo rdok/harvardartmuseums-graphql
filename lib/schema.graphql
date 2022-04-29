@@ -60,7 +60,7 @@ type ObjectResource {
   creditLine: String
   url: String!
   title: String!
-  technique: String!
+  technique: String
   division: String!
   dimensions: String!
   dateBegin: String

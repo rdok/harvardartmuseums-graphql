@@ -37,7 +37,7 @@ export type ObjectResource = {
   primaryImageUrl: Scalars['String'];
   provenance: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
-  technique: Scalars['String'];
+  technique: Maybe<Scalars['String']>;
   title: Scalars['String'];
   totalUniquePageViews: Scalars['Int'];
   url: Scalars['String'];
@@ -196,7 +196,7 @@ export type ObjectResourceResolvers<ContextType = any, ParentType extends Resolv
   primaryImageUrl: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   provenance: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rank: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  technique: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  technique: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   totalUniquePageViews: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   url: Resolver<ResolversTypes['String'], ParentType, ContextType>;
