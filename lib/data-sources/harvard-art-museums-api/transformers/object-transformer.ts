@@ -10,7 +10,8 @@ export class ObjectTransformer {
       id: incomingObject.objectnumber,
       rank: incomingObject.rank,
       imageCount: incomingObject.imagecount,
-      primaryImageUrl: incomingObject.primaryimageurl,
+      primaryImageUrl:
+        incomingObject.primaryimageurl ?? "https://via.placeholder.com/400",
       provenance: incomingObject.provenance,
       creditLine: incomingObject.creditline,
       url: incomingObject.url,

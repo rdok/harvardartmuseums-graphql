@@ -55,7 +55,7 @@ type ObjectResource {
   id: String!
   rank: Int!
   imageCount: Int!
-  primaryImageUrl: String
+  primaryImageUrl: String!
   provenance: String
   creditLine: String
   url: String!

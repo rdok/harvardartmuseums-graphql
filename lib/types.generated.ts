@@ -34,7 +34,7 @@ export type ObjectResource = {
   division: Scalars['String'];
   id: Scalars['String'];
   imageCount: Scalars['Int'];
-  primaryImageUrl: Maybe<Scalars['String']>;
+  primaryImageUrl: Scalars['String'];
   provenance: Maybe<Scalars['String']>;
   rank: Scalars['Int'];
   technique: Scalars['String'];
@@ -193,7 +193,7 @@ export type ObjectResourceResolvers<ContextType = any, ParentType extends Resolv
   division: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   imageCount: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  primaryImageUrl: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  primaryImageUrl: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   provenance: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rank: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   technique: Resolver<ResolversTypes['String'], ParentType, ContextType>;
