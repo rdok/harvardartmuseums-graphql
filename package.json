@@ -54,7 +54,7 @@
     "@graphql-tools/graphql-file-loader": "^7.3.12",
     "@graphql-tools/load": "^7.5.11",
     "apollo-datasource-rest": "^3.5.3",
-    "apollo-server-lambda": "^3.6.7",
+    "apollo-server-lambda": "^3.7.0",
     "aws4": "^1.11.0",
     "graphql": "^15.8.0"
   },
