@@ -24,7 +24,7 @@
   "license": "MIT",
   "devDependencies": {
     "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript": "^2.4.11",
     "@graphql-codegen/typescript-resolvers": "^2.6.1",
     "@types/aws4": "^1.11.2",
     "@types/jest": "^27.4.1",
@@ -43,7 +43,7 @@
     "jest-ts-auto-mock": "^2.1.0",
     "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
-    "ts-auto-mock": "^3.5.1",
+    "ts-auto-mock": "^3.6.0",
     "ts-node": "^10.7.0",
     "ttypescript": "^1.5.13",
     "typescript": "^4.6.3"
